@@ -1,0 +1,78 @@
+openapi: 3.0.1
+info:
+  title: ToDo API
+  version: 1.0.0
+paths:
+  /tasks:
+    get:
+      summary: Get all tasks
+      operationId: getTasks
+      responses:
+        "200":
+          description: List of tasks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+    post:
+      summary: Add a new task
+      operationId: addTask
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+      responses:
+        "201":
+          description: Task created
+  /tasks/{id}:
+    put:
+      summary: Update a task
+      operationId: updateTask
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+      responses:
+        "200":
+          description: Task updated
+    delete:
+      summary: Delete a task
+      operationId: deleteTask
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Task deleted
+
+components:
+  schemas:
+    Task:
+      type: object
+      properties:
+        id:
+          type: integer
+          nullable: false
+        task:
+          type: string
+        isCompleted:
+          type: boolean
+      required:
+        - id
+        - task
+        - isCompleted
